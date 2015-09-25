@@ -19,7 +19,7 @@ You will probably want to override FHttpClient.service to add your own logging a
 ## Adding FHttp to your build ##
 The project is cross-compiled for scala 2.9.2 and scala 2.10.3. In your build.sbt, add:
 
-    "com.foursquare" %% "foursquare-fhttp" % "0.1.14"
+    "com.foursquare" %% "foursquare-fhttp" % "0.1.15"
 
 
 ## Some Simple Examples ##
@@ -114,4 +114,7 @@ Here's a slightly more complicated oauth (and HTTPS) example, using a [Dropbox A
 
     // and go do some stuff with it.
     api("/1/account/info").oauth(consumer, accessToken).get_!()
+
+## Network Address Cache TTL ##
+FHttpClient honors the Java Security setting `networkaddress.cache.ttl`.  A positive value for this setting indicates the number of seconds after which DNS cache entries are expired, triggering re-resolution.  This support was introduced in Finagle 6.20.0 and FHttp 0.1.15.
 

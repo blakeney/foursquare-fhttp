@@ -3,7 +3,7 @@
 package com.foursquare.fhttp
 
 import com.twitter.conversions.time._
-import com.twitter.finagle.{Service, SimpleFilter}
+import com.twitter.finagle.{InetResolver, Name, Service, SimpleFilter}
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.builder.ClientConfig.Yes
 import com.twitter.finagle.http.Http
@@ -36,7 +36,8 @@ class FHttpClient ( val name: String,
 
   val firstHostPort = hostPort.split(",",2)(0)
 
-  def builtClient = builder.name(name).hosts(hostPort).build()
+  // Use dest() instead of hosts() to allow DNS cache expiry
+  def builtClient = builder.name(name).dest(Name.Bound(InetResolver.bind(hostPort), hostPort)).build()
 
   val baseService = throwHttpErrorsFilter andThen builtClient
 
